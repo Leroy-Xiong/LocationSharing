@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Test2</string>
+    <string name="Register">Register</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="Login">Login</string>
+    <string name="click_to_login">Click to login</string>
+    <string name="click_to_register">Click to register</string>
+    <string name="Logout">Logout</string>
+    <string name="share_my_location">Share my location</string>
+    <string name="view_others_locations">View others locations</string>
+    <string name="enter_your_location">Enter your location</string>
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
+    <string name="Submit">Submit</string>
+</resources>
