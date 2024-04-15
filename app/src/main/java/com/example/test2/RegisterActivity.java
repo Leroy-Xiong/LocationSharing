@@ -40,17 +40,17 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String userID;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(RegisterActivity.this, LocationChoiceActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null){
+//            Intent intent = new Intent(RegisterActivity.this, LocationChoiceActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,12 +103,15 @@ public class RegisterActivity extends AppCompatActivity {
                                     Map<String, Object> user = new HashMap<>();
                                     user.put("email", email);
 
+                                    String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+
                                     db.collection("users")
-                                            .add(user)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            .document(userId) // 使用用户ID作为Document ID
+                                            .set(user) // 使用set方法将数据写入指定Document
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + userId);
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
