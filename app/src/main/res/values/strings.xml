@@ -14,4 +14,7 @@
     <string name="longitude">longitude</string>
     <string name="Submit">Submit</string>
     <string name="your_name">Your name</string>
+    <string name="Settings">Settings</string>
+    <string name="show_my_location">Show My Location</string>
+    <string name="save">Save</string>
 </resources>

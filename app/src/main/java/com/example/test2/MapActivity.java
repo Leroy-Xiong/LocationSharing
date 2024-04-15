@@ -22,7 +22,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,7 +41,7 @@ import java.util.Map;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     FirebaseAuth auth;
-    Button button;
+    Button buttonLogout, buttonSettings;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -59,7 +61,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logout);
+        buttonLogout = findViewById(R.id.logout);
+        buttonSettings = findViewById(R.id.settings);
         user = auth.getCurrentUser();
         if (user == null){
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -67,7 +70,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             finish();
         }
 
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -90,6 +93,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     @Override
@@ -108,12 +120,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                                 Map<String, Object> data = document.getData();
 
-                                // Add a marker in Sydney and move the camera
-                                LatLng location = new LatLng((Double) data.get("latitude"), (Double) data.get("longitude"));
-                                mMap.addMarker(new MarkerOptions()
-                                        .position(location)
-                                        .title((String) data.get("name")));
-                                mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                                if ((boolean) data.get("show")) {
+                                    // Add a marker in Sydney and move the camera
+                                    LatLng location = new LatLng((Double) data.get("latitude"), (Double) data.get("longitude"));
+                                    Marker marker = mMap.addMarker(new MarkerOptions()
+                                            .position(location)
+                                            .title((String) data.get("name"))
+                                            .snippet("Latitude: " + data.get("latitude") + ", Longitude: " + data.get("longitude")));
+                                    assert marker != null;
+                                    marker.showInfoWindow();
+//                                mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                                }
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
