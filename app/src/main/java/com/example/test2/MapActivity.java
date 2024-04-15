@@ -33,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Map;
+
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -103,7 +105,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                Map<String, Object> data = document.getData();
+
+                                // Add a marker in Sydney and move the camera
+                                LatLng location = new LatLng((Double) data.get("latitude"), (Double) data.get("longitude"));
+                                mMap.addMarker(new MarkerOptions()
+                                        .position(location)
+                                        .title("Location 1"));
+//                                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -111,12 +121,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                 });
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 
 
