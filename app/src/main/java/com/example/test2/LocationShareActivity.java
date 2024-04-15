@@ -32,7 +32,7 @@ import java.util.Objects;
 public class LocationShareActivity extends AppCompatActivity {
 
     Button buttonLogout, buttonSubmit;
-    TextInputEditText editTextLatitude, editTextLongitude;
+    TextInputEditText editTextName, editTextLatitude, editTextLongitude;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
 
@@ -45,6 +45,7 @@ public class LocationShareActivity extends AppCompatActivity {
         buttonSubmit = findViewById(R.id.btn_submit);
         editTextLatitude = findViewById(R.id.text_latitude);
         editTextLongitude = findViewById(R.id.text_longitude);
+        editTextName = findViewById(R.id.your_name);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -77,6 +78,7 @@ public class LocationShareActivity extends AppCompatActivity {
 
                 String latitudeStr = String.valueOf(editTextLatitude.getText());
                 String longitudeStr = String.valueOf(editTextLongitude.getText());
+                String nameStr = String.valueOf(editTextName.getText());
 
                 // check whether the latitude and longitude are valid
                 try {
@@ -88,6 +90,7 @@ public class LocationShareActivity extends AppCompatActivity {
                         Map<String, Object> user = new HashMap<>();
                         user.put("latitude", latitude);
                         user.put("longitude", longitude);
+                        user.put("name", nameStr);
 
                         // save the latitude and longitude to Cloud Firebase
                         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();

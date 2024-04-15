@@ -112,7 +112,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 LatLng location = new LatLng((Double) data.get("latitude"), (Double) data.get("longitude"));
                                 mMap.addMarker(new MarkerOptions()
                                         .position(location)
-                                        .title("Location 1"));
+                                        .title((String) data.get("name")));
 //                                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
                             }
                         } else {
