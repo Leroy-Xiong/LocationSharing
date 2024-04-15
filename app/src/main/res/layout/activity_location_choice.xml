@@ -18,18 +18,7 @@
             android:paddingTop="5dip"
             android:paddingBottom="5dip">
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="463dp"
-                android:layout_height="203dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="80dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginEnd="7dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="100dp"
-                android:orientation="vertical"
-                app:srcCompat="@drawable/catdog" />
+
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -71,6 +60,15 @@
                 android:orientation="vertical"
                 app:srcCompat="@drawable/party" />
         </LinearLayout>
+        <!-- Footer Start -->
+        <LinearLayout android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="90dip"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/repeat_bg"
+            android:orientation="vertical" >
+        </LinearLayout>
+        <!-- Footer Ends -->
     </RelativeLayout>
 </ScrollView>
 
