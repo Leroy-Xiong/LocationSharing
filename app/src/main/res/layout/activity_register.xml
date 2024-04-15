@@ -100,9 +100,9 @@
         <!-- Footer Start -->
         <LinearLayout android:id="@+id/footer"
             android:layout_width="match_parent"
-            android:layout_height="90dip"
+            android:layout_height="130dip"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/repeat_bg"
+            android:background="@drawable/flower"
             android:orientation="vertical" >
         </LinearLayout>
         <!-- Footer Ends -->
