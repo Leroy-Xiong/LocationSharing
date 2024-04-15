@@ -113,7 +113,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 mMap.addMarker(new MarkerOptions()
                                         .position(location)
                                         .title((String) data.get("name")));
-//                                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
