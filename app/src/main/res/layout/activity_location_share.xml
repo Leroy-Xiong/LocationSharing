@@ -10,7 +10,8 @@
         <!--  Header Starts-->
         <LinearLayout android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="400dp"
+            android:background="@layout/header_gradient"
             android:paddingTop="5dip"
             android:paddingBottom="5dip">
             <!-- Logo Start-->
@@ -94,5 +95,6 @@
 
 
             </LinearLayout>
+
     </RelativeLayout>
 </ScrollView>
