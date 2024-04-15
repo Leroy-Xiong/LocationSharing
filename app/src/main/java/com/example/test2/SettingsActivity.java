@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -95,17 +96,15 @@ public class SettingsActivity extends AppCompatActivity {
                 String latitudeStr = String.valueOf(editTextLatitude.getText());
                 String longitudeStr = String.valueOf(editTextLongitude.getText());
 
-                // check whether the latitude and longitude are valid
-                try {
+                if (!TextUtils.isEmpty(latitudeStr) && !TextUtils.isEmpty(longitudeStr)){
+                    // check whether the latitude and longitude are valid
                     double latitude = Double.parseDouble(latitudeStr);
                     double longitude = Double.parseDouble(longitudeStr);
-
                     // 检查经纬度范围
                     if (isValidLatitude(latitude) && isValidLongitude(longitude)) {
                         Map<String, Object> user = new HashMap<>();
                         user.put("latitude", latitude);
                         user.put("longitude", longitude);
-                        user.put("show", show);
 
                         // save the latitude and longitude to Cloud Firebase
                         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
@@ -138,11 +137,27 @@ public class SettingsActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
 
-                } catch (NumberFormatException e) {
-                    Toast.makeText(SettingsActivity.this,
-                            "Invalid input. Please enter a valid numeric value for latitude and longitude.",
-                            Toast.LENGTH_SHORT).show();
                 }
+
+
+                Map<String, Object> user = new HashMap<>();
+                user.put("show", show);
+                db.collection("users")
+                        .document(userId) // 使用用户ID作为Document ID
+                        .update(user) // 使用set方法将数据写入指定Document
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot added with ID: " + userId);
+                                Toast.makeText(SettingsActivity.this, "Settings saved!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error adding document", e);
+                            }
+                        });
 
             }
         });
