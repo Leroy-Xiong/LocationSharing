@@ -22,4 +22,6 @@
     <string name="confirm">Confirm</string>
     <string name="skip_to_the_map">Skip to the map</string>
     <string name="change_my_location">Change my location</string>
+    <string name="show_my_location_2">Show my location</string>
+    <string name="satellite_map">Satellite map</string>
 </resources>

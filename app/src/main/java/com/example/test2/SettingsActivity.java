@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -31,9 +32,10 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity {
 
     Button buttonBack, buttonChangeLoc;
-    Switch aSwitch;
+    Switch aSwitch, switchSatellite;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    boolean satellite_map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
         buttonBack = findViewById(R.id.btn_back);
         buttonChangeLoc = findViewById(R.id.btn_changeLoc);
         aSwitch = findViewById(R.id.sw_show_location);
+        switchSatellite = findViewById(R.id.sw_satellite_map);
 
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         DocumentReference docRef = db.collection("users").document(userId);
@@ -60,6 +63,17 @@ public class SettingsActivity extends AppCompatActivity {
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
+            }
+        });
+
+        Intent intent = getIntent();
+        boolean satellite = intent.getBooleanExtra("satellite", false);
+        switchSatellite.setChecked(satellite);
+        switchSatellite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                satellite_map = isChecked;
+                Log.d(TAG, "onCheckedChanged: " + satellite_map);
             }
         });
 
@@ -91,6 +105,8 @@ public class SettingsActivity extends AppCompatActivity {
                         });
 
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                intent.putExtra("satellite_map", satellite_map);
+                Log.d(TAG, "onClick: " + satellite_map);
                 startActivity(intent);
                 finish();
 

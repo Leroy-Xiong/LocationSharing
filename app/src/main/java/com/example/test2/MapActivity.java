@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
+import java.util.Objects;
 
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -44,6 +46,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     Button buttonLogout, buttonSettings;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    boolean satellite = false;
 
 
     @Override
@@ -69,6 +72,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             startActivity(intent);
             finish();
         }
+
+        Intent intent = getIntent();
+        satellite = intent.getBooleanExtra("satellite_map", false);
+        Log.d(TAG, "onCreate: " + satellite);
 
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +104,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                intent.putExtra("satellite", satellite);
                 startActivity(intent);
                 finish();
             }
@@ -108,7 +116,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
+        String currentUserId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        if (satellite) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        }
 
         db.collection("users")
                 .get()
@@ -119,17 +132,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 Map<String, Object> data = document.getData();
+                                String documentId = document.getId();
 
                                 if ((boolean) data.get("show")) {
                                     // Add a marker in Sydney and move the camera
                                     LatLng location = new LatLng((Double) data.get("latitude"), (Double) data.get("longitude"));
-                                    Marker marker = mMap.addMarker(new MarkerOptions()
+                                    MarkerOptions markerOptions = new MarkerOptions()
                                             .position(location)
                                             .title((String) data.get("name"))
-                                            .snippet("Latitude: " + data.get("latitude") + ", Longitude: " + data.get("longitude")));
+                                            .snippet("Latitude: " + data.get("latitude") + ", Longitude: " + data.get("longitude"));
+                                    boolean isCurrentUser = documentId.equals(currentUserId);
+
+                                    // Set a unique icon or color for the current user's marker
+                                    if (isCurrentUser) {
+                                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                                        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                                    } else {
+                                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+                                    }
+
+                                    Marker marker = mMap.addMarker(markerOptions);
                                     assert marker != null;
                                     marker.showInfoWindow();
-//                                mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+
                                 }
                             }
                         } else {
