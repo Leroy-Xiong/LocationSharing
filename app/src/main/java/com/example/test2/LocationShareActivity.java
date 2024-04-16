@@ -10,19 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -31,7 +26,7 @@ import java.util.Objects;
 
 public class LocationShareActivity extends AppCompatActivity {
 
-    Button buttonLogout, buttonSubmit;
+    Button buttonLogout, buttonSubmit, buttonBack, buttonSearch;
     TextInputEditText editTextName, editTextLatitude, editTextLongitude;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
@@ -43,6 +38,8 @@ public class LocationShareActivity extends AppCompatActivity {
 
         buttonLogout = findViewById(R.id.btn_logout);
         buttonSubmit = findViewById(R.id.btn_submit);
+        buttonBack = findViewById(R.id.btn_back);
+        buttonSearch = findViewById(R.id.btn_search);
         editTextLatitude = findViewById(R.id.text_latitude);
         editTextLongitude = findViewById(R.id.text_longitude);
         editTextName = findViewById(R.id.your_name);
@@ -132,6 +129,24 @@ public class LocationShareActivity extends AppCompatActivity {
 
             }
         });
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LocationChoiceActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+//        buttonSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 
     }
 

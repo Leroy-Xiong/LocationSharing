@@ -17,4 +17,6 @@
     <string name="Settings">Settings</string>
     <string name="show_my_location">Show My Location</string>
     <string name="save">Save</string>
+    <string name="search_in_the_map">Search in the map</string>
+    <string name="back">Back</string>
 </resources>
