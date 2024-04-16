@@ -30,8 +30,7 @@ import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    Button buttonBack, buttonSave;
-    EditText editTextLatitude, editTextLongitude;
+    Button buttonBack, buttonChangeLoc;
     Switch aSwitch;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -42,10 +41,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         buttonBack = findViewById(R.id.btn_back);
-        buttonSave = findViewById(R.id.btn_save);
+        buttonChangeLoc = findViewById(R.id.btn_changeLoc);
         aSwitch = findViewById(R.id.sw_show_location);
-        editTextLatitude = findViewById(R.id.text_latitude);
-        editTextLongitude = findViewById(R.id.text_longitude);
 
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         DocumentReference docRef = db.collection("users").document(userId);
@@ -69,66 +66,10 @@ public class SettingsActivity extends AppCompatActivity {
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 boolean show = true;
                 if (!aSwitch.isChecked()) {
                     show = false;
                 }
-
-                String latitudeStr = String.valueOf(editTextLatitude.getText());
-                String longitudeStr = String.valueOf(editTextLongitude.getText());
-
-                if (!TextUtils.isEmpty(latitudeStr) && !TextUtils.isEmpty(longitudeStr)){
-                    // check whether the latitude and longitude are valid
-                    double latitude = Double.parseDouble(latitudeStr);
-                    double longitude = Double.parseDouble(longitudeStr);
-                    // 检查经纬度范围
-                    if (isValidLatitude(latitude) && isValidLongitude(longitude)) {
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("latitude", latitude);
-                        user.put("longitude", longitude);
-
-                        // save the latitude and longitude to Cloud Firebase
-                        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-
-                        db.collection("users")
-                                .document(userId) // 使用用户ID作为Document ID
-                                .update(user) // 使用set方法将数据写入指定Document
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "DocumentSnapshot added with ID: " + userId);
-                                        Toast.makeText(SettingsActivity.this, "Settings saved!", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error adding document", e);
-                                    }
-                                });
-
-                        // jump to MapActivity
-                        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                        startActivity(intent);
-                        finish();
-
-                    } else {
-                        Toast.makeText(SettingsActivity.this,
-                                "Invalid latitude or longitude. Please enter a value within the valid range.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
 
                 Map<String, Object> user = new HashMap<>();
                 user.put("show", show);
@@ -149,6 +90,19 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         });
 
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+        buttonChangeLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LocationShareActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

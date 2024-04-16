@@ -20,4 +20,6 @@
     <string name="search_in_the_map">Search in the map</string>
     <string name="back">Back</string>
     <string name="confirm">Confirm</string>
+    <string name="skip_to_the_map">Skip to the map</string>
+    <string name="change_my_location">Change my location</string>
 </resources>

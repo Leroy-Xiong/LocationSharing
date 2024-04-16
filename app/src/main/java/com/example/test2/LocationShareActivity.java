@@ -28,7 +28,7 @@ import java.util.Objects;
 
 public class LocationShareActivity extends AppCompatActivity {
 
-    Button buttonLogout, buttonSubmit, buttonBack, buttonSearch;
+    Button buttonLogout, buttonSubmit, buttonBack, buttonSearch, buttonToMap;
     TextInputEditText editTextName, editTextLatitude, editTextLongitude;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
@@ -40,8 +40,9 @@ public class LocationShareActivity extends AppCompatActivity {
 
         buttonLogout = findViewById(R.id.btn_logout);
         buttonSubmit = findViewById(R.id.btn_submit);
-        buttonBack = findViewById(R.id.btn_back);
+//        buttonBack = findViewById(R.id.btn_back);
         buttonSearch = findViewById(R.id.btn_search);
+        buttonToMap = findViewById(R.id.btn_toMap);
         editTextLatitude = findViewById(R.id.text_latitude);
         editTextLongitude = findViewById(R.id.text_longitude);
         editTextName = findViewById(R.id.your_name);
@@ -161,10 +162,19 @@ public class LocationShareActivity extends AppCompatActivity {
             }
         });
 
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+//        buttonBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), LocationChoiceActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+
+        buttonToMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LocationChoiceActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
                 finish();
             }
