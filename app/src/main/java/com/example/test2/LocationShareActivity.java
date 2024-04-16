@@ -139,14 +139,14 @@ public class LocationShareActivity extends AppCompatActivity {
             }
         });
 
-//        buttonSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
