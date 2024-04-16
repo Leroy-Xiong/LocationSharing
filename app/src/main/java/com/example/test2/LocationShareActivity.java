@@ -4,7 +4,9 @@ import static android.content.ContentValues.TAG;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -69,6 +71,20 @@ public class LocationShareActivity extends AppCompatActivity {
             }
         });
 
+        Address address = getIntent().getParcelableExtra("address");
+        if (address != null) {
+            double latitude = address.getLatitude();
+            double longitude = address.getLongitude();
+
+            editTextLatitude.setText(String.format("%.6f", latitude)); // 格式化为6位小数
+            editTextLongitude.setText(String.format("%.6f", longitude));
+
+            // 现在您可以使用传递过来的latitude和longitude进行相关操作...
+            Log.d(TAG, String.format("Received Latitude: %.6f, Longitude: %.6f", latitude, longitude));
+        } else {
+            Log.w(TAG, "Failed to receive address from previous activity.");
+        }
+
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +92,21 @@ public class LocationShareActivity extends AppCompatActivity {
                 String latitudeStr = String.valueOf(editTextLatitude.getText());
                 String longitudeStr = String.valueOf(editTextLongitude.getText());
                 String nameStr = String.valueOf(editTextName.getText());
+
+                if (TextUtils.isEmpty(nameStr)){
+                    Toast.makeText(LocationShareActivity.this, "Enter your name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(latitudeStr)){
+                    Toast.makeText(LocationShareActivity.this, "Enter latitude", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(longitudeStr)){
+                    Toast.makeText(LocationShareActivity.this, "Enter longitude", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // check whether the latitude and longitude are valid
                 try {

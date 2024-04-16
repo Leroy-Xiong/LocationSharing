@@ -2,10 +2,13 @@ package com.example.test2;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -28,8 +31,10 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private Button buttonBack, buttonConfirm;
     private GoogleMap mMap;
     private SearchView mapSearchView;
+    private Address address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,8 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_search);
 
         mapSearchView = findViewById(R.id.mapSearch);
+        buttonBack = findViewById(R.id.btn_back);
+        buttonConfirm = findViewById(R.id.btn_confirm);
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -65,7 +72,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                         Toast.makeText(SearchActivity.this, "Failed to find a matching address!", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "onQueryTextSubmit: Toast");
                     } else {
-                        Address address = addressList.get(0);
+                        address = addressList.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                         mMap.clear();
                         mMap.addMarker(new MarkerOptions().position(latLng).title(location));
@@ -82,7 +89,31 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
 
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LocationShareActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
+        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (address != null) {
+                    Log.d(TAG, String.valueOf("Latitude: " + address.getLatitude() + " Longitude: " + address.getLongitude()));
+
+                    Intent intent = new Intent(getApplicationContext(), LocationShareActivity.class);
+                    intent.putExtra("address", address);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(SearchActivity.this, "You need to search first", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
     }
 
