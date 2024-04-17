@@ -2,11 +2,14 @@ package com.example.test2;
 
 import static android.content.ContentValues.TAG;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,13 +18,13 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,18 +32,25 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private Button buttonBack, buttonConfirm;
+    private Button buttonBack, buttonConfirm, buttonGetCurrentLoc;
     private GoogleMap mMap;
     private SearchView mapSearchView;
     private Address address;
     Marker marker;
     private TextView textViewDrag;
+    private final int FINE_PERMISSION_CODE = 1;
+    Location currentLocation;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    String locationSearch;
+    SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +61,15 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
         mapSearchView = findViewById(R.id.mapSearch);
         buttonBack = findViewById(R.id.btn_back);
         buttonConfirm = findViewById(R.id.btn_confirm);
+        buttonGetCurrentLoc = findViewById(R.id.btn_getCurrentLoc);
         textViewDrag = findViewById(R.id.textDrag);
 
         textViewDrag.setVisibility(View.GONE);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
         // Get a handle to the fragment and register the callback.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -64,14 +77,14 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
         mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String location = mapSearchView.getQuery().toString();
+                locationSearch = mapSearchView.getQuery().toString();
                 List<Address> addressList = null;
 
-                if (location != null) {
+                if (locationSearch != null) {
                     Geocoder geocoder = new Geocoder(SearchActivity.this);
 
                     try {
-                        addressList = geocoder.getFromLocationName(location, 1);
+                        addressList = geocoder.getFromLocationName(locationSearch, 1);
                     } catch (IOException e) {
                         Toast.makeText(SearchActivity.this, "Unable to connect to geocoding service, please try again later", Toast.LENGTH_SHORT).show();
                         return false;
@@ -84,7 +97,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                         address = addressList.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                         mMap.clear();
-                        marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(location));
+                        marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(locationSearch));
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
                     }
 
@@ -98,14 +111,19 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                         @Override
                         public void onAnimationStart(Animator animation) {
                         }
+
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             textViewDrag.setVisibility(View.VISIBLE);
                         }
+
                         @Override
-                        public void onAnimationCancel(Animator animation) {}
+                        public void onAnimationCancel(Animator animation) {
+                        }
+
                         @Override
-                        public void onAnimationRepeat(Animator animation) {}
+                        public void onAnimationRepeat(Animator animation) {
+                        }
                     });
                 }
 
@@ -117,7 +135,6 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                 return false;
             }
         });
-
 
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +165,44 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
 
+        buttonGetCurrentLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getLastLocation();
+
+
+            }
+        });
+
+    }
+
+    private void getLastLocation() {
+
+        Log.d(TAG, "getLastLocation: test");
+        
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
+            Log.d(TAG, "getLastLocation: test2");
+            return;
+        }
+        Log.d(TAG, "getLastLocation: test3");
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                Log.d(TAG, "getLastLocation: test4");
+                if (location != null) {
+                    Log.d(TAG, "getLastLocation: test5");
+                    mMap.clear();
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(locationSearch));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
+                }
+            }
+        });
+
+
     }
 
     // Get a handle to the GoogleMap object and display marker.
@@ -157,5 +212,17 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == FINE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            } else {
+                Toast.makeText(this, "Location permission is denied, please allow the permission", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

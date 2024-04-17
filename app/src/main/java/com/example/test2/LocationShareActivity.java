@@ -140,7 +140,7 @@ public class LocationShareActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "DocumentSnapshot added with ID: " + userId);
-                                        Toast.makeText(LocationShareActivity.this, "Your location was successfully submitted!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LocationShareActivity.this, "Your locationSearch was successfully submitted!", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
