@@ -2,6 +2,8 @@ package com.example.test2;
 
 import static android.content.ContentValues.TAG;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -37,6 +40,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
     private SearchView mapSearchView;
     private Address address;
     Marker marker;
+    private TextView textViewDrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,9 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
         mapSearchView = findViewById(R.id.mapSearch);
         buttonBack = findViewById(R.id.btn_back);
         buttonConfirm = findViewById(R.id.btn_confirm);
+        textViewDrag = findViewById(R.id.textDrag);
+
+        textViewDrag.setVisibility(View.GONE);
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -80,6 +87,26 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                         marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(location));
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
                     }
+
+                    // Show "Drag" text view
+                    // 创建一个Alpha动画，从完全透明到完全不透明（即淡入效果）
+                    ObjectAnimator fadeInAnimator = ObjectAnimator.ofFloat(textViewDrag, "alpha", 0f, 1f);
+                    fadeInAnimator.setDuration(500); // 毫秒
+                    fadeInAnimator.start();
+
+                    fadeInAnimator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            textViewDrag.setVisibility(View.VISIBLE);
+                        }
+                        @Override
+                        public void onAnimationCancel(Animator animation) {}
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {}
+                    });
                 }
 
                 return false;
