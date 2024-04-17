@@ -24,4 +24,5 @@
     <string name="change_my_location">Change my location</string>
     <string name="show_my_location_2">Show my location</string>
     <string name="satellite_map">Satellite map</string>
+    <string name="use_current_location">Use current location</string>
 </resources>

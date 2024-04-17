@@ -134,27 +134,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 Map<String, Object> data = document.getData();
                                 String documentId = document.getId();
 
-                                if ((boolean) data.get("show")) {
+
                                     // Add a marker in Sydney and move the camera
-                                    LatLng location = new LatLng((Double) data.get("latitude"), (Double) data.get("longitude"));
-                                    MarkerOptions markerOptions = new MarkerOptions()
-                                            .position(location)
-                                            .title((String) data.get("name"))
-                                            .snippet("Latitude: " + data.get("latitude") + ", Longitude: " + data.get("longitude"));
-                                    boolean isCurrentUser = documentId.equals(currentUserId);
+                                LatLng location = new LatLng((Double) data.get("latitude"), (Double) data.get("longitude"));
+                                MarkerOptions markerOptions = new MarkerOptions()
+                                        .position(location)
+                                        .title((String) data.get("name"))
+                                        .snippet("Latitude: " + data.get("latitude") + ", Longitude: " + data.get("longitude"));
+                                boolean isCurrentUser = documentId.equals(currentUserId);
 
-                                    // Set a unique icon or color for the current user's marker
-                                    if (isCurrentUser) {
-                                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-                                    } else {
-                                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
-                                    }
+                                // Set a unique icon or color for the current user's marker
+                                if (isCurrentUser) {
+                                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                                    mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                                } else {
+                                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+                                }
 
+                                if ((boolean) data.get("show")) {
                                     Marker marker = mMap.addMarker(markerOptions);
                                     assert marker != null;
                                     marker.showInfoWindow();
-
                                 }
                             }
                         } else {
