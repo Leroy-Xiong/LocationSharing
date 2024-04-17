@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
@@ -73,10 +74,10 @@ public class LocationShareActivity extends AppCompatActivity {
             }
         });
 
-        Address address = getIntent().getParcelableExtra("address");
+        LatLng address = getIntent().getParcelableExtra("address");
         if (address != null) {
-            double latitude = address.getLatitude();
-            double longitude = address.getLongitude();
+            double latitude = address.latitude;
+            double longitude = address.longitude;
 
             editTextLatitude.setText(String.format("%.6f", latitude)); // 格式化为6位小数
             editTextLongitude.setText(String.format("%.6f", longitude));

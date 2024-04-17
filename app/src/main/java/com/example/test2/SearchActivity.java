@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
     private GoogleMap mMap;
     private SearchView mapSearchView;
     private Address address;
+    Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                         address = addressList.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                         mMap.clear();
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                        marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(location));
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
                     }
                 }
@@ -88,6 +90,8 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                 return false;
             }
         });
+
+
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,10 +106,12 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onClick(View v) {
                 if (address != null) {
-                    Log.d(TAG, String.valueOf("Latitude: " + address.getLatitude() + " Longitude: " + address.getLongitude()));
+                    LatLng markerPosition = marker.getPosition();
+
+                    Log.d(TAG, String.valueOf("Hahahah Latitude: " + markerPosition.latitude + " Longitude: " + markerPosition.longitude));
 
                     Intent intent = new Intent(getApplicationContext(), LocationShareActivity.class);
-                    intent.putExtra("address", address);
+                    intent.putExtra("address", markerPosition);
                     startActivity(intent);
                     finish();
                 } else {
