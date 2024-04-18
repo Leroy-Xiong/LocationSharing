@@ -15,7 +15,8 @@
             android:layout_height="400dp"
             android:background="@layout/header_gradient"
             android:paddingTop="5dip"
-            android:paddingBottom="5dip">
+            android:paddingBottom="5dip"
+            android:orientation="horizontal">
 
         </LinearLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,7 +101,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/party" />
 
-        </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
