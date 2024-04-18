@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    TextInputEditText editTextEmail, editTextPassword;
+    EditText editTextEmail, editTextPassword;
     Button buttonReg;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
@@ -102,6 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                     Map<String, Object> user = new HashMap<>();
                                     user.put("email", email);
+                                    user.put("show", true);
 
                                     String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 

@@ -32,4 +32,7 @@
     <string name="welcome">Welcome!</string>
     <string name="new_to_locshare">New to LocShare?</string>
     <string name="register_here">Register Here!</string>
+    <string name="if_you_have_any_questions_nplease_contact_us_locshare_gmail_com">If you have any questions, \nplease contact us \'LocShare@gmail.com\'</string>
+    <string name="click_to_login_2">Click to login.</string>
+    <string name="latitude_2">Latitude</string>
 </resources>

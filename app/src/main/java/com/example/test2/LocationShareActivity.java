@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,7 @@ import java.util.Objects;
 public class LocationShareActivity extends AppCompatActivity {
 
     Button buttonLogout, buttonSubmit, buttonBack, buttonSearch, buttonToMap, buttonUseCurrentLoc;
-    TextInputEditText editTextName, editTextLatitude, editTextLongitude;
+    EditText editTextName, editTextLatitude, editTextLongitude;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
 
@@ -43,7 +44,6 @@ public class LocationShareActivity extends AppCompatActivity {
         buttonSubmit = findViewById(R.id.btn_submit);
 //        buttonBack = findViewById(R.id.btn_back);
         buttonSearch = findViewById(R.id.btn_search);
-        buttonUseCurrentLoc = findViewById(R.id.btn_useCurrentLoc);
         buttonToMap = findViewById(R.id.btn_toMap);
         editTextLatitude = findViewById(R.id.text_latitude);
         editTextLongitude = findViewById(R.id.text_longitude);
@@ -88,12 +88,6 @@ public class LocationShareActivity extends AppCompatActivity {
             Log.w(TAG, "Failed to receive address from previous activity.");
         }
 
-        buttonUseCurrentLoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
