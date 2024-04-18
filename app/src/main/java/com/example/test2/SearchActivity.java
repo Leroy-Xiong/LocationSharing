@@ -98,7 +98,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                         mMap.clear();
                         marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(locationSearch));
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                     }
 
                     // Show "Drag" text view
@@ -149,17 +149,18 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (address != null) {
+
+                if (marker != null) {
                     LatLng markerPosition = marker.getPosition();
 
-                    Log.d(TAG, String.valueOf("Hahahah Latitude: " + markerPosition.latitude + " Longitude: " + markerPosition.longitude));
+                    Log.d(TAG, String.valueOf("Latitude: " + markerPosition.latitude + " Longitude: " + markerPosition.longitude));
 
                     Intent intent = new Intent(getApplicationContext(), LocationShareActivity.class);
                     intent.putExtra("address", markerPosition);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(SearchActivity.this, "You need to search first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchActivity.this, "You need to chose a location first", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -171,7 +172,30 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
 
                 getLastLocation();
 
+                // Show "Drag" text view
+                // 创建一个Alpha动画，从完全透明到完全不透明（即淡入效果）
+                ObjectAnimator fadeInAnimator = ObjectAnimator.ofFloat(textViewDrag, "alpha", 0f, 1f);
+                fadeInAnimator.setDuration(500); // 毫秒
+                fadeInAnimator.start();
 
+                fadeInAnimator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        textViewDrag.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                });
             }
         });
 
@@ -197,7 +221,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                     mMap.clear();
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     marker = mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(locationSearch));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                 }
             }
         });

@@ -68,6 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         boolean satellite = intent.getBooleanExtra("satellite", false);
+        satellite_map = satellite;
         switchSatellite.setChecked(satellite);
         switchSatellite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

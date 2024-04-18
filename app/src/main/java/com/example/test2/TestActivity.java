@@ -53,10 +53,14 @@ public class TestActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "getLastLocation: test");
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
-            Log.d(TAG, "getLastLocation: test2");
-            return;
+
         }
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
+        Log.d(TAG, "getLastLocation: test2");
+//        return;
+
+
         Log.d(TAG, "getLastLocation: test3");
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
