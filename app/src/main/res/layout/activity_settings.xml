@@ -30,11 +30,16 @@
 
             <Button
                 android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="55dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#006698"
+                android:fontFamily="casual"
                 android:text="Back"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,9 +50,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
+                android:fontFamily="casual"
                 android:text="@string/show_my_location_2"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:textSize="20sp"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_back" />
 
@@ -57,29 +64,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="casual"
                 android:text="@string/satellite_map"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:textSize="20sp"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sw_show_location" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_show_location_title" />
 
             <Switch
                 android:id="@+id/sw_show_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
+                android:switchMinWidth="56dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_show_location_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_back" />
+                app:layout_constraintTop_toTopOf="@+id/tv_show_location_title" />
 
             <Switch
                 android:id="@+id/sw_satellite_map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
+                android:switchMinWidth="56dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_satellite_map"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sw_show_location" />
+                app:layout_constraintTop_toTopOf="@+id/tv_satellite_map" />
 
             <Button
                 android:id="@+id/btn_changeLoc"

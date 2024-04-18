@@ -40,7 +40,7 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private Button buttonBack, buttonConfirm, buttonGetCurrentLoc;
+    private Button buttonConfirm, buttonGetCurrentLoc;
     private GoogleMap mMap;
     private SearchView mapSearchView;
     private Address address;
@@ -51,6 +51,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
     FusedLocationProviderClient fusedLocationProviderClient;
     String locationSearch;
     SupportMapFragment mapFragment;
+    TextView buttonBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

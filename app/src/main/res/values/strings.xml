@@ -35,4 +35,5 @@
     <string name="if_you_have_any_questions_nplease_contact_us_locshare_gmail_com">If you have any questions, \nplease contact us \'LocShare@gmail.com\'</string>
     <string name="click_to_login_2">Click to login.</string>
     <string name="latitude_2">Latitude</string>
+    <string name="longitude_2">Longitude</string>
 </resources>
