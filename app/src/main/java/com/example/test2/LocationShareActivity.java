@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,10 +31,11 @@ import java.util.Objects;
 
 public class LocationShareActivity extends AppCompatActivity {
 
-    Button buttonLogout, buttonSubmit, buttonBack, buttonSearch, buttonToMap, buttonUseCurrentLoc;
+    Button buttonLogout, buttonSubmit, buttonBack, buttonToMap, buttonUseCurrentLoc;
     EditText editTextName, editTextLatitude, editTextLongitude;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
+    TextView buttonSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
