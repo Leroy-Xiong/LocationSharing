@@ -9,9 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:background="#ffffff">
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="400dp"
@@ -19,6 +17,12 @@
             android:paddingTop="5dip"
             android:paddingBottom="5dip">
 
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="489dp"
+                android:layout_height="167dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/envelope" />
         </LinearLayout>
 
         <LinearLayout
@@ -29,6 +33,7 @@
             android:gravity="center"
             android:padding="15dp"
             android:orientation="vertical">
+
 
             <TextView
                 android:text="@string/Register"
@@ -91,6 +96,7 @@
                 android:text="If you have any questions, \nplease contact us 'LocShare@gmail.com'"
                 android:textSize="15sp"
                 android:textStyle="bold" />
+
 
         </LinearLayout>
         <!-- Footer Start -->
