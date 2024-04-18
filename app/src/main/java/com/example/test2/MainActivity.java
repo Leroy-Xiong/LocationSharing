@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextInputEditText editTextEmail, editTextPassword;
+    EditText editTextEmail, editTextPassword;
     Button buttonLogin;
     FirebaseAuth mAuth;
     ProgressBar progressBar;

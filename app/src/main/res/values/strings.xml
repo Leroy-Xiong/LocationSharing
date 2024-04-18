@@ -26,4 +26,10 @@
     <string name="satellite_map">Satellite map</string>
     <string name="use_current_location">Use current location</string>
     <string name="get_current_location">Get current location</string>
+    <string name="new_to_locshare_register_here">New to LocShare? Register here</string>
+    <string name="email_2">Email</string>
+    <string name="password_2">Password</string>
+    <string name="welcome">Welcome!</string>
+    <string name="new_to_locshare">New to LocShare?</string>
+    <string name="register_here">Register Here!</string>
 </resources>
