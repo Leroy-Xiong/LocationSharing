@@ -31,11 +31,11 @@ import java.util.Objects;
 
 public class LocationShareActivity extends AppCompatActivity {
 
-    Button buttonLogout, buttonSubmit, buttonBack, buttonToMap, buttonUseCurrentLoc;
+    Button buttonSubmit, buttonBack, buttonUseCurrentLoc;
     EditText editTextName, editTextLatitude, editTextLongitude;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
-    TextView buttonSearch;
+    TextView buttonSearch, buttonLogout, buttonToMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
