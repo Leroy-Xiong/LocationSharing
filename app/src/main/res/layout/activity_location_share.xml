@@ -28,6 +28,16 @@
                 android:layout_marginStart="-15dp"
                 android:layout_marginLeft="10dip"
                 android:src="@drawable/flag" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="hint" />
+            </com.google.android.material.textfield.TextInputLayout>
             <!-- Logo Ends -->
         </LinearLayout>
         <!--  Header Ends -->
