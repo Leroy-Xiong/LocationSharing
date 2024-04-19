@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,11 +32,12 @@ import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    Button buttonBack, buttonChangeLoc;
+    Button buttonBack;
     Switch aSwitch, switchSatellite;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     boolean satellite_map;
+    TextView buttonChangeLoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

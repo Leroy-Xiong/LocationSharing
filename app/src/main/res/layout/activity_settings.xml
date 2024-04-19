@@ -19,11 +19,11 @@
             android:orientation="horizontal">
 
         </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@layout/header_gradient"
             android:padding="16dp"
 
             tools:context=".SettingsActivity">
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="casual"
                 android:text="@string/show_my_location_2"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
@@ -92,15 +92,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_satellite_map" />
 
-            <Button
+            <TextView
                 android:id="@+id/btn_changeLoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="casual"
                 android:text="@string/change_my_location"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_satellite_map" />
+
 
             <ImageView
                 android:id="@+id/imageView"
@@ -113,7 +118,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/party" />
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
