@@ -1,6 +1,6 @@
 # LocShare
-  
-A brief description of what MyAndroidApp does.  
+
+Our group’s app product is called LocShare. LocShare aims to provide users with a convenient platform to share and update their current locations with friends and family. With this app, users can effortlessly connect and stay informed about the whereabouts of their loved ones in real-time.
   
 ## Installation  
   
